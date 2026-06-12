@@ -10,10 +10,6 @@ Nitro applies env overrides at runtime for variables that match declared `runtim
 
 Using Valkey? Read [this thread](https://github.com/taskforcesh/bullmq/issues/3083).
 
-::: warning Coming soon
-Redis runtime wiring is planned. v0.0.1 is a repository scaffold.
-:::
-
 ## Environment variables
 
 | Runtime config key | Build / dev (`nitro dev`, `nitro build`) | Runtime (production server) |

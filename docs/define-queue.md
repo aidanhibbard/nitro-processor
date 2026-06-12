@@ -6,10 +6,6 @@ title: Define Queue
 
 `defineQueue` registers a BullMQ queue using the Redis connection from `useRuntimeConfig().redis` (see [Redis configuration](/redis)).
 
-::: warning Coming soon
-`defineQueue` is not yet implemented in v0.0.1.
-:::
-
 Create `server/queues/index.ts`:
 
 ```ts
