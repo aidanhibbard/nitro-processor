@@ -1,6 +1,6 @@
 {
   "name": "nitro-processor",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Decoupled background processing for Nitro servers backed by BullMQ",
   "author": "Aidan Hibbard",
   "repository": {
