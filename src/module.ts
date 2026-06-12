@@ -1,32 +1,15 @@
-import type { Nitro } from 'nitro/types'
+import type { ModuleOptions } from './interfaces/module-options'
+import type { NitroProcessorModule } from './interfaces/nitro-processor-module'
+import { createSetup } from './setup/create-setup'
+import { resolveModuleOptions } from './utils/resolve-module-options'
 
-export interface ModuleOptions {
-  /**
-   * The folder containing the worker files
-   * Scans for {ts,js,mjs}
-   * @default 'server/workers'
-   */
-  workers?: string
-}
-
-export interface NitroProcessorModule {
-  name: string
-  setup: (nitro: Nitro) => void | Promise<void>
-}
-
-export default function nitroProcessor(
-  options: ModuleOptions = {},
-): NitroProcessorModule {
-  const resolvedOptions: Required<ModuleOptions> = {
-    workers: 'server/workers',
-    ...options,
-  }
+const nitroProcessor = (options: ModuleOptions = {}): NitroProcessorModule => {
+  const resolvedOptions = resolveModuleOptions(options)
 
   return {
     name: 'nitro-processor',
-    setup(nitro: Nitro) {
-      void nitro
-      void resolvedOptions
-    },
+    setup: createSetup(resolvedOptions),
   }
 }
+
+export default nitroProcessor

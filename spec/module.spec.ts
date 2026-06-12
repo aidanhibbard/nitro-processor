@@ -12,13 +12,23 @@ describe('nitroProcessor', () => {
 
   it('uses default workers path when options are omitted', () => {
     const mod = nitroProcessor()
+    const nitro = { options: { runtimeConfig: {} } }
 
-    expect(mod.setup({} as never)).toBeUndefined()
+    mod.setup(nitro as never)
+
+    expect(nitro.options.runtimeConfig).toEqual({
+      processor: { workers: 'server/workers' },
+    })
   })
 
   it('accepts custom workers path', () => {
     const mod = nitroProcessor({ workers: 'custom/workers' })
+    const nitro = { options: { runtimeConfig: {} } }
 
-    expect(mod.setup({} as never)).toBeUndefined()
+    mod.setup(nitro as never)
+
+    expect(nitro.options.runtimeConfig).toEqual({
+      processor: { workers: 'custom/workers' },
+    })
   })
 })
