@@ -1,0 +1,61 @@
+export const generateWorkersEntryContent = (workerFiles: string[]): string => {
+  const toImportArray = workerFiles
+    .map((id) => `() => import(${JSON.stringify(id)})`)
+    .join(',\n    ')
+  return `
+import { consola } from 'consola'
+import { useProcessor } from '#processor-utils'
+
+export async function createWorkersApp() {
+const api = useProcessor()
+// Avoid EPIPE when stdout/stderr are closed by terminal (e.g., Ctrl+C piping)
+const handleStreamError = (err) => {
+try {
+  const code = (typeof err === 'object' && err && 'code' in err) ? err.code : null
+  if (code === 'EPIPE') return
+} catch (e) { console.warn?.('nitro-processor: stream error inspection failed', e) }
+throw err
+}
+try { process.stdout?.on?.('error', handleStreamError) } catch (err) { console.warn('nitro-processor: failed to attach stdout error handler', err) }
+try { process.stderr?.on?.('error', handleStreamError) } catch (err) { console.warn('nitro-processor: failed to attach stderr error handler', err) }
+const modules = [
+${toImportArray}
+]
+for (const loader of modules) {
+await loader()
+}
+// Parse --workers flag (e.g. --workers=basic,hello)
+const workersArg = process.argv.find(a => typeof a === 'string' && a.startsWith('--workers='))
+const selectedWorkers = workersArg
+  ? workersArg.split('=')[1].split(',').map(s => s.trim()).filter(Boolean)
+  : null
+const workersToRun = selectedWorkers
+  ? (Array.isArray(api.workers) ? api.workers.filter(w => w && selectedWorkers.includes(w.name)) : [])
+  : (Array.isArray(api.workers) ? api.workers : [])
+const logger = consola.create({}).withTag('nitro-processor')
+if (selectedWorkers && workersToRun.length === 0) {
+  const available = (Array.isArray(api.workers) ? api.workers.map(w => w && w.name).filter(Boolean) : [])
+  logger.warn('No workers matched --workers=' + selectedWorkers.join(',') + (available.length ? '. Available: ' + available.join(', ') : '.'))
+  process.exit(1)
+}
+try {
+const workerNames = workersToRun.map(w => w && w.name).filter(Boolean)
+logger.info('starting workers:\\n' + workerNames.map(n => ' - ' + n).join('\\n'))
+for (const w of workersToRun) {
+  w.on('error', (err) => logger.error('worker error', err))
+}
+for (const w of workersToRun) {
+  w.run().catch((err) => logger.error('worker run error', err))
+}
+await Promise.all(workersToRun.map((w) => w.waitUntilReady()))
+logger.success('workers started')
+return { stop: (opts) => api.stopAll(opts), workers: workersToRun }
+} catch (err) {
+logger.error('failed to initialize workers', err)
+throw err
+}
+}
+
+export default { createWorkersApp }
+`
+}

@@ -4,10 +4,6 @@ title: Getting Started
 
 # Getting Started
 
-::: warning Early development
-Runtime helpers and worker entry generation are coming soon. v0.0.1 is a repository scaffold.
-:::
-
 ## Install
 
 ```bash
@@ -107,6 +103,7 @@ npx nitro-processor dev --workers=basic,hello
 
 Notes:
 
+- Dev workers entry default: `node_modules/.nitro/dev/workers/index.mjs`. Custom `buildDir`? Use `--buildDir`.
 - If the dev workers entry does not exist yet, the CLI will ask you to start your Nitro dev server first and exit.
 - If your `package.json` does not have a `processor:dev` script, the CLI will offer to add:
 

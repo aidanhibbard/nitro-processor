@@ -1,6 +1,6 @@
 {
   "extends": "nitro/tsconfig",
-  "include": ["server/**/*.ts", "nitro.config.ts"],
+  "include": ["server/**/*.ts", "types/**/*.d.ts", "nitro.config.ts"],
   "compilerOptions": {
     "strict": true,
     "noUncheckedIndexedAccess": true,

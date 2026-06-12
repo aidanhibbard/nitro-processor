@@ -1,6 +1,6 @@
 {
   "name": "nitro-processor",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Decoupled background processing for Nitro servers backed by BullMQ",
   "author": "Aidan Hibbard",
   "repository": {
@@ -40,6 +40,7 @@
     "prepack": "obuild",
     "dev": "npm run dev:prepare && nitro dev playground",
     "dev:build": "nitro build playground",
+    "processor:dev": "nitro-processor dev playground",
     "dev:prepare": "obuild --stub",
     "release": "npm run ci && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
     "lint": "eslint .",

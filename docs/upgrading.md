@@ -14,7 +14,7 @@ title: Upgrading
 | --- | --- |
 | `modules: ['nuxt-processor']` in `nuxt.config.ts` | `modules: [nitroProcessor()]` in `nitro.config.ts` |
 | `NUXT_REDIS_*` runtime env | `NITRO_REDIS_*` runtime env |
-| `.nuxt/dev/workers/index.mjs` | Nitro dev workers entry (under `buildDir`) |
+| `.nuxt/dev/workers/index.mjs` | `{buildDir}/dev/workers/index.mjs` (default `node_modules/.nitro/dev/workers/index.mjs`) |
 | `npx nuxt-processor dev` | `npx nitro-processor dev` |
 | `processor` config key in Nuxt config | Module factory options |
 
@@ -27,7 +27,7 @@ Redis settings follow [Nitro runtime config](https://nitro.build/config#runtimec
 
 ## Public API
 
-The planned public API mirrors nuxt-processor:
+The public API mirrors nuxt-processor:
 
 - `defineQueue` / `defineWorker` from `#processor`
 - `useProcessor()` from `#processor-utils`

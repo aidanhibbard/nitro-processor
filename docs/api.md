@@ -6,17 +6,13 @@ title: API
 
 Reference for module options, runtime config, helpers, and the CLI.
 
-::: warning Coming soon
-Most runtime APIs are planned for a future release. v0.0.1 ships the module factory stub and CLI scaffold only.
-:::
-
 ## Imports
 
 | Alias | Exports |
 | --- | --- |
-| `#processor` | `defineQueue`, `defineWorker` (planned) |
-| `#processor-utils` | `useProcessor`, BullMQ types (`Queue`, `Worker`, `Processor`, …) (planned) |
-| `#bullmq` | Re-exports from `bullmq` (planned) |
+| `#processor` | `defineQueue`, `defineWorker` |
+| `#processor-utils` | `useProcessor`, BullMQ types (`Queue`, `Worker`, `Processor`, …) |
+| `#bullmq` | Re-exports from `bullmq` |
 
 ```ts
 import { defineQueue, defineWorker } from '#processor'
@@ -65,9 +61,17 @@ interface RuntimeConfig {
 ```bash
 npx nitro-processor dev
 npx nitro-processor dev --workers=basic,hello
+npx nitro-processor dev --buildDir .nitro
 ```
 
 | Arg | Type | Purpose |
 | --- | --- | --- |
 | `dir` | positional (default `.`) | Project root |
+| `--buildDir` | string | Nitro `buildDir` relative to project root (disables auto-probe) |
 | `--workers` | string | Comma-separated worker names filter |
+| `--nodeArgs` | string | Extra Node flags (e.g. `--inspect`) |
+| `--verbose` | boolean | Log resolved watch paths |
+
+Dev workers entry: `{buildDir}/dev/workers/index.mjs` (default `node_modules/.nitro/dev/workers/index.mjs`).
+
+Prod workers entry: `.output/server/workers/index.mjs`.

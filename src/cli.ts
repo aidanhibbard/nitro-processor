@@ -1,12 +1,8 @@
 import { createMain, defineCommand } from 'citty'
 
 import { version, name, description } from '../package.json'
-import { logger } from './utils/logger'
-
-const runDevCommand = () => {
-  logger.info('nitro-processor dev is not implemented yet')
-  logger.info('Start your Nitro dev server first, then run this command again')
-}
+import { parseDevArgs } from './cli/parse-dev-args'
+import { runDevCommand } from './cli/run-dev-command'
 
 export const main = createMain({
   meta: {
@@ -25,8 +21,28 @@ export const main = createMain({
           type: 'positional',
           default: '.',
         },
+        buildDir: {
+          type: 'string',
+          description:
+            'Nitro buildDir relative to project root (disables auto-probe)',
+        },
+        nodeArgs: {
+          type: 'string',
+          description: 'Extra Node args (e.g. --inspect)',
+        },
+        workers: {
+          type: 'string',
+          description:
+            'Workers to run, comma-separated; use --workers=name1,name2 (default: all)',
+        },
+        verbose: {
+          type: 'boolean',
+          description: 'Log resolved watch paths',
+        },
       },
-      run: runDevCommand,
+      run: async ({ args }) => {
+        await runDevCommand(parseDevArgs(args))
+      },
     }),
   },
 })

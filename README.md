@@ -86,19 +86,17 @@ export default defineWorker({
 })
 ```
 
-::: warning Coming soon
-Runtime helpers (`defineQueue`, `defineWorker`, worker entry generation) are not yet implemented in v0.0.1. This repository is scaffolded for development.
-:::
-
 ## Running
 
-- Start your Nitro app normally (`nitro dev`). This module will generate a dedicated workers entry.
-- In development, run workers from the Nitro dev workers entry in a separate terminal.
+- Start your Nitro app normally (`nitro dev`). This module generates a dedicated workers entry under `{buildDir}/dev/workers/index.mjs` (default `node_modules/.nitro/dev/workers/index.mjs`).
+- In development, run workers from that entry in a separate terminal.
 
 ```bash
 nitro dev
 npx nitro-processor dev
 ```
+
+Custom `nitro.buildDir`? Pass `--buildDir <path>` to the CLI.
 
 ## CLI
 

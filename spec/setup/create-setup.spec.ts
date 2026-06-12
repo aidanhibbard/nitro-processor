@@ -1,42 +1,33 @@
 import { describe, expect, it } from 'vitest'
 
 import { createSetup } from '../../src/setup/create-setup'
+import { resolveModuleOptions } from '../../src/utils/resolve-module-options'
 
 describe('createSetup', () => {
-  it('seeds processor workers path on nitro runtime config', () => {
-    const setup = createSetup({ workers: 'custom/workers' })
+  it('composes all module registrars', () => {
+    const setup = createSetup(resolveModuleOptions())
+    const hooks: Record<string, ((...args: unknown[]) => void)[]> = {}
     const nitro = {
       options: {
+        rootDir: process.cwd(),
         runtimeConfig: {},
+        alias: {} as Record<string, string>,
+        plugins: [] as string[],
       },
-    }
-
-    setup(nitro as never)
-
-    expect(nitro.options.runtimeConfig).toEqual({
-      processor: {
-        workers: 'custom/workers',
-      },
-    })
-  })
-
-  it('preserves existing runtime config keys', () => {
-    const setup = createSetup({ workers: 'server/workers' })
-    const nitro = {
-      options: {
-        runtimeConfig: {
-          redis: { url: 'redis://127.0.0.1:6379/0' },
+      hooks: {
+        hook: (name: string, fn: (...args: unknown[]) => void) => {
+          hooks[name] = hooks[name] ?? []
+          hooks[name].push(fn)
         },
       },
     }
 
     setup(nitro as never)
 
-    expect(nitro.options.runtimeConfig).toEqual({
-      redis: { url: 'redis://127.0.0.1:6379/0' },
-      processor: {
-        workers: 'server/workers',
-      },
-    })
+    expect(nitro.options.runtimeConfig.redis).toBeDefined()
+    expect(nitro.options.alias['#processor-utils']).toBeTruthy()
+    expect(nitro.options.plugins).toHaveLength(1)
+    expect(hooks['rollup:before']).toHaveLength(2)
+    expect(hooks['types:extend']).toHaveLength(1)
   })
 })
