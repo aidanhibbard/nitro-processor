@@ -1,5 +1,9 @@
 ## Unreleased
 
+## v0.1.1
+
+First stable release — Nitro v3 background processing ported from nuxt-processor.
+
 ### 🚀 Features
 
 - Runtime helpers: `defineQueue`, `defineWorker`, `useProcessor`, and close-on-shutdown plugin.
