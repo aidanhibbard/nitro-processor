@@ -30,13 +30,21 @@ describe('resolvePublishedRuntimePath', () => {
     )
   })
 
-  it('prefers dist/runtime when present', () => {
-    const path = resolvePublishedRuntimePath(
-      packageRoot,
-      'server/utils/workers.ts',
+  it('prefers dist/runtime .mjs when present', () => {
+    const relative = 'server/utils/workers.ts'
+    const distMjs = resolve(packageRoot, 'dist/runtime', relative).replace(
+      /\.ts$/,
+      '.mjs',
     )
-    expect(path.endsWith('server/utils/workers.mjs')).toBe(true)
-    expect(path.includes('runtime')).toBe(true)
-    expect(path.includes('dist/runtime')).toBe(true)
+    mkdirSync(dirname(distMjs), { recursive: true })
+    writeFileSync(distMjs, '')
+    try {
+      const path = resolvePublishedRuntimePath(packageRoot, relative)
+      expect(path).toBe(distMjs)
+      expect(path.endsWith('server/utils/workers.mjs')).toBe(true)
+      expect(path.includes('dist/runtime')).toBe(true)
+    } finally {
+      unlinkSync(distMjs)
+    }
   })
 })
