@@ -23,6 +23,7 @@ Note: This package is under very active development! Please consider creating is
 ## Sections
 
 - [Install](#install)
+- [Configuration](#configuration)
 - [Redis configuration](#redis-configuration)
 - [Define a queue and enqueue from your app](#define-a-queue-and-enqueue-from-your-app)
 - [Define a worker](#define-a-worker)
@@ -37,7 +38,11 @@ Note: This package is under very active development! Please consider creating is
 npm install nitro-processor
 ```
 
-Add the module in `nitro.config.ts`:
+## Configuration
+
+Register the module in **`nitro.config.ts`** (standalone Nitro) or **`vite.config.ts`** (Vite + Nitro plugin). Full reference: [Configuration](https://aidanhibbard.github.io/nitro-processor/configuration).
+
+### Standalone Nitro (`nitro.config.ts`)
 
 ```ts
 import { defineConfig } from 'nitro/config'
@@ -48,6 +53,35 @@ export default defineConfig({
     nitroProcessor({ workers: 'server/workers' }),
   ],
 })
+```
+
+### Vite + Nitro (`vite.config.ts`)
+
+```ts
+import { defineConfig } from 'vite'
+import { nitro } from 'nitro/vite'
+import nitroProcessor from 'nitro-processor'
+
+export default defineConfig({
+  plugins: [nitro()],
+  nitro: {
+    modules: [
+      nitroProcessor({ workers: 'server/workers' }),
+    ],
+  },
+})
+```
+
+You can also use a separate `nitro.config.ts` alongside the Vite plugin — see the [configuration guide](https://aidanhibbard.github.io/nitro-processor/configuration).
+
+### `buildDir` and the workers CLI
+
+Dev workers are emitted at `{buildDir}/dev/workers/index.mjs` (default `node_modules/.nitro/dev/workers/index.mjs`). If you set a custom `buildDir` in Nitro config, pass it to the CLI:
+
+```bash
+npx nitro-processor dev --buildDir .nitro
+# or
+NITRO_PROCESSOR_BUILD_DIR=.nitro npx nitro-processor dev
 ```
 
 ## Redis configuration
@@ -88,15 +122,13 @@ export default defineWorker({
 
 ## Running
 
-- Start your Nitro app normally (`nitro dev`). This module generates a dedicated workers entry under `{buildDir}/dev/workers/index.mjs` (default `node_modules/.nitro/dev/workers/index.mjs`).
+- Start your Nitro app first (`nitro dev` or `vite dev`). This module generates a dedicated workers entry under `{buildDir}/dev/workers/index.mjs` (default `node_modules/.nitro/dev/workers/index.mjs`).
 - In development, run workers from that entry in a separate terminal.
 
 ```bash
-nitro dev
+nitro dev   # or: vite dev
 npx nitro-processor dev
 ```
-
-Custom `nitro.buildDir`? Pass `--buildDir <path>` to the CLI.
 
 ## CLI
 
@@ -106,6 +138,9 @@ npx nitro-processor dev
 
 # run only specific workers
 npx nitro-processor dev --workers=basic,hello
+
+# custom buildDir (must match nitro.config.ts / vite.config.ts)
+npx nitro-processor dev --buildDir .nitro
 ```
 
 After building for production:

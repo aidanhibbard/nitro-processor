@@ -10,6 +10,9 @@ hero:
       text: Get Started
       link: /getting-started
     - theme: alt
+      text: Configuration
+      link: /configuration
+    - theme: alt
       text: API
       link: /api
     - theme: alt

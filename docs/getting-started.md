@@ -10,7 +10,7 @@ title: Getting Started
 npm install nitro-processor
 ```
 
-Add the module in `nitro.config.ts`:
+Register the module in `nitro.config.ts` (standalone Nitro) or `vite.config.ts` (Vite + Nitro). See [Configuration](/configuration) for full examples, `buildDir`, and CLI flags.
 
 ```ts
 import { defineConfig } from 'nitro/config'
@@ -103,7 +103,7 @@ npx nitro-processor dev --workers=basic,hello
 
 Notes:
 
-- Dev workers entry default: `node_modules/.nitro/dev/workers/index.mjs`. Custom `buildDir`? Use `--buildDir`.
+- Dev workers entry default: `node_modules/.nitro/dev/workers/index.mjs`. Custom `buildDir` in `nitro.config.ts` or `vite.config.ts`? Use `--buildDir` or `NITRO_PROCESSOR_BUILD_DIR` — see [Configuration](/configuration).
 - If the dev workers entry does not exist yet, the CLI will ask you to start your Nitro dev server first and exit.
 - If your `package.json` does not have a `processor:dev` script, the CLI will offer to add:
 

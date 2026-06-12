@@ -8,6 +8,7 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Getting Started', link: '/getting-started' },
+      { text: 'Configuration', link: '/configuration' },
       { text: 'API', link: '/api' },
       { text: 'Redis', link: '/redis' },
       { text: 'Upgrading', link: '/upgrading' },
@@ -18,6 +19,7 @@ export default defineConfig({
         text: 'Guide',
         items: [
           { text: 'Getting Started', link: '/getting-started' },
+          { text: 'Configuration', link: '/configuration' },
           { text: 'Upgrading from 0.x / 1.x', link: '/upgrading' },
           { text: 'Redis configuration', link: '/redis' },
           { text: 'Define Queue', link: '/define-queue' },

@@ -21,7 +21,7 @@ import type { Job } from '#bullmq'
 
 ## Module options
 
-Configure when registering the module in `nitro.config.ts`:
+Configure when registering the module in `nitro.config.ts` or `vite.config.ts`. See [Configuration](/configuration) for Vite setup and `buildDir`.
 
 ```ts
 import { defineConfig } from 'nitro/config'
