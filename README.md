@@ -5,6 +5,8 @@
 [![License][license-src]][license-href]
 [![Known Vulnerabilities](https://snyk.io/test/github/aidanhibbard/nitro-processor/badge.svg)](https://snyk.io/test/github/aidanhibbard/nitro-processor)
 
+> **Looking for Nuxt?** This package is for standalone Nitro and Vite + Nitro apps. For Nuxt, use [nuxt-processor](https://github.com/aidanhibbard/nuxt-processor).
+
 ## Scalable processing for Nitro
 
 Note: This package is under very active development! Please consider creating issues if you run into anything!
