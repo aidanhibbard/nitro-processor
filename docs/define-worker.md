@@ -6,10 +6,6 @@ title: Define Worker
 
 `defineWorker` registers a BullMQ worker using the Redis connection from `useRuntimeConfig().redis` (see [Redis configuration](/redis)). Workers run in a dedicated Node process.
 
-::: warning Coming soon
-`defineWorker` is not yet implemented in v0.0.1.
-:::
-
 Create `server/workers/index.ts`:
 
 ```ts

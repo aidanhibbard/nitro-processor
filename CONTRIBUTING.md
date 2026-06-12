@@ -86,12 +86,12 @@ Breaking changes should be called out in the PR description and documented in
 | Path | Description |
 | --- | --- |
 | `src/module.ts` | Nitro module entry |
-| `src/runtime/` | `defineQueue`, `defineWorker`, `useProcessor` (planned) |
+| `src/runtime/` | `defineQueue`, `defineWorker`, `useProcessor` |
 | `src/utils/` | Build-time helpers (workers entry, Redis config) |
 | `playground/` | Development app |
 | `docs/` | VitePress documentation |
 | `spec/` | Vitest unit tests |
-| `scripts/` | Release helpers (planned) |
+| `scripts/` | Build verification helpers |
 
 ## Commit messages
 
