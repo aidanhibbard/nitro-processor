@@ -1,0 +1,17 @@
+{
+  "private": true,
+  "name": "nitro-processor-playground-vite-nitro",
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "nitro-processor": "file:../.."
+  },
+  "devDependencies": {
+    "nitro": "latest",
+    "typescript": "~5.9.2",
+    "vite": "latest"
+  }
+}

@@ -92,7 +92,36 @@ const collectCloseErrors = (
   }
 }
 
-export const useProcessor = () => {
+interface ProcessorApi {
+  createQueue: <
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    DataTypeOrJob = any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    DefaultResultType = any,
+    DefaultNameType extends string = string,
+  >(
+    name: DefaultNameType,
+    options?: Omit<QueueOptions, 'connection'> & {
+      defaultJobOptions?: JobsOptions
+    },
+  ) => Queue<DataTypeOrJob, DefaultResultType, DefaultNameType>
+  createWorker: <
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    DataType = any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ResultType = any,
+    NameType extends string = string,
+  >(
+    name: NameType,
+    processor: Processor<DataType, ResultType, NameType>,
+    options?: Omit<WorkerOptions, 'connection'>,
+  ) => Worker<DataType, ResultType, NameType>
+  stopAll: (options?: StopAllOptions) => Promise<StopAllResult>
+  readonly queues: WorkersRegistry['queues']
+  readonly workers: WorkersRegistry['workers']
+}
+
+export const useProcessor = (): ProcessorApi => {
   const createQueue = <
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     DataTypeOrJob = any,
@@ -217,17 +246,18 @@ export const useProcessor = () => {
     }
   }
 
-  return {
+  const api: ProcessorApi = {
     createQueue,
     createWorker,
     stopAll,
-    get queues() {
+    get queues(): WorkersRegistry['queues'] {
       return getRegistry().queues
     },
-    get workers() {
+    get workers(): WorkersRegistry['workers'] {
       return getRegistry().workers
     },
   }
+  return api
 }
 
 export type {

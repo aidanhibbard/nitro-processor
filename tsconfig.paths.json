@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "#processor": ["./dist/runtime/server/handlers/processor.d.mts"],
+      "#processor-utils": ["./dist/runtime/server/utils/workers.d.mts"],
+      "#bullmq": ["./node_modules/bullmq"]
+    }
+  }
+}

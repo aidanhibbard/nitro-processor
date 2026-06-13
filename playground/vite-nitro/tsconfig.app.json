@@ -1,0 +1,14 @@
+{
+  "extends": ["nitro/tsconfig", "nitro-processor/tsconfig.paths.json"],
+  "compilerOptions": {
+    "composite": true,
+    "noEmit": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "verbatimModuleSyntax": true
+  },
+  "include": ["server/**/*.ts"]
+}
