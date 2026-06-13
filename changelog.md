@@ -1,5 +1,27 @@
 ## Unreleased
 
+## v0.1.2
+
+TypeScript and consumer DX improvements for virtual aliases and plain `tsc`.
+
+### 🚀 Features
+
+- Public runtime entry: `nitro-processor/runtime` (`defineQueue`, `defineWorker`, `useProcessor`).
+- Shipped ambient types for `#processor`, `#processor-utils`, and `#bullmq` via `dist/types.d.mts` and `dist/virtual.d.mts`.
+- Shipped `nitro-processor/tsconfig.paths.json` for plain `tsc` / `tsc -b` without Nitro-generated types.
+- New package exports: `./runtime`, `./virtual`, `./tsconfig.paths.json`.
+
+### 🩹 Fixes
+
+- Emit runtime `.d.mts` declarations (including `workers.d.mts` for `#processor-utils`).
+- Assemble `dist/types.d.mts` on build so published types resolve correctly.
+- Include `docs/**/*.md` in the npm tarball.
+
+### 🔄 Changes
+
+- Split development apps into `playground/nitro/` and `playground/vite-nitro/`.
+- CI runs playground typechecks, `vite build`, and `nitro-processor dev` smoke test.
+
 ## v0.1.1
 
 First stable release — Nitro v3 background processing ported from nuxt-processor.
