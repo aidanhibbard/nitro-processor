@@ -101,6 +101,7 @@ See [Redis configuration](https://aidanhibbard.github.io/nitro-processor/redis) 
 
 ```ts
 import { defineQueue } from '#processor'
+// or: import { defineQueue } from 'nitro-processor/runtime'
 
 export default defineQueue({
   name: 'hello',

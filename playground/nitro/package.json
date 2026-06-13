@@ -1,12 +1,13 @@
 {
   "private": true,
-  "name": "nitro-processor-playground",
+  "name": "nitro-processor-playground-nitro",
   "type": "module",
   "scripts": {
     "dev": "nitro dev",
     "build": "nitro build"
   },
   "dependencies": {
-    "nitro": "latest"
+    "nitro": "latest",
+    "nitro-processor": "file:../.."
   }
 }

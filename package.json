@@ -18,13 +18,27 @@
     ".": {
       "types": "./dist/types.d.mts",
       "import": "./dist/module.mjs"
-    }
+    },
+    "./runtime": {
+      "types": "./dist/runtime-entry.d.mts",
+      "import": "./dist/runtime-entry.mjs"
+    },
+    "./virtual": {
+      "types": "./dist/virtual.d.mts"
+    },
+    "./tsconfig.paths.json": "./tsconfig.paths.json"
   },
   "main": "./dist/module.mjs",
   "typesVersions": {
     "*": {
       ".": [
         "./dist/types.d.mts"
+      ],
+      "runtime": [
+        "./dist/runtime-entry.d.mts"
+      ],
+      "virtual": [
+        "./dist/virtual.d.mts"
       ]
     }
   },
@@ -34,23 +48,32 @@
   "files": [
     "dist",
     "bin",
-    "docs/**/*.md"
+    "docs/**/*.md",
+    "tsconfig.paths.json"
   ],
   "scripts": {
-    "prepack": "obuild",
-    "dev": "npm run dev:prepare && nitro dev playground",
-    "dev:build": "nitro build playground",
-    "processor:dev": "nitro-processor dev playground",
+    "prepack": "obuild && tsx scripts/assemble-types.ts",
+    "dev": "npm run dev:prepare && nitro dev playground/nitro",
+    "dev:build": "nitro build playground/nitro",
+    "dev:vite": "npm run dev:prepare && vite dev playground/vite-nitro",
+    "dev:vite:build": "vite build playground/vite-nitro",
+    "processor:dev": "nitro-processor dev playground/nitro",
+    "processor:dev:vite": "nitro-processor dev playground/vite-nitro",
     "dev:prepare": "obuild --stub",
     "release": "npm run ci && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "vitest run --coverage",
-    "ci": "npm run lint && npm run typecheck && npm run test:types && npm run test",
+    "ci": "npm run lint && npm run typecheck && npm run prepack && npm run test:types && npm run test:playgrounds && npm run test",
+    "pretest:playgrounds": "npm ci --prefix playground/nitro && npm ci --prefix playground/vite-nitro",
+    "test:playgrounds": "npm run test:playground:build && npm run test:playground:processor",
+    "test:playground:build": "npm run build --prefix playground/vite-nitro",
+    "test:playground:processor": "tsx scripts/playground-vite-processor-dev.ts",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest watch",
-    "test:types": "tsc --noEmit -p playground/tsconfig.json",
+    "pretest:types": "tsx scripts/ensure-dist-types.ts",
+    "test:types": "tsc --noEmit -p playground/nitro/tsconfig.json && tsc -b playground/vite-nitro/tsconfig.json",
     "vp:dev": "vitepress dev docs",
     "vp:build": "vitepress build docs",
     "vp:preview": "vitepress preview docs"

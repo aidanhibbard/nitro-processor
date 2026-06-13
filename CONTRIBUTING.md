@@ -35,20 +35,32 @@ npm install
 npm run dev:prepare
 ```
 
-### Playground
+### Playgrounds
+
+Two sample apps live under `playground/`:
+
+| Path | Stack | Dev command |
+| --- | --- | --- |
+| `playground/nitro/` | Standalone Nitro | `npm run dev` |
+| `playground/vite-nitro/` | Vite + Nitro plugin | `npm run dev:vite` |
 
 ```bash
-# Nitro app + hot reload
+# Standalone Nitro app + hot reload
 npm run dev
 
-# Production build of the playground
+# Vite + Nitro app + hot reload
+npm run dev:vite
+
+# Production builds
 npm run dev:build
+npm run dev:vite:build
 ```
 
-Workers run in a separate process (see README). From the project root after `npm run dev`:
+Workers run in a separate process (see README). From the project root after starting the app:
 
 ```bash
-npm run processor:dev
+npm run processor:dev        # playground/nitro
+npm run processor:dev:vite   # playground/vite-nitro
 ```
 
 ### Quality checks
@@ -88,7 +100,8 @@ Breaking changes should be called out in the PR description and documented in
 | `src/module.ts` | Nitro module entry |
 | `src/runtime/` | `defineQueue`, `defineWorker`, `useProcessor` |
 | `src/utils/` | Build-time helpers (workers entry, Redis config) |
-| `playground/` | Development app |
+| `playground/nitro/` | Standalone Nitro development app |
+| `playground/vite-nitro/` | Vite + Nitro development app |
 | `docs/` | VitePress documentation |
 | `spec/` | Vitest unit tests |
 | `scripts/` | Build verification helpers |

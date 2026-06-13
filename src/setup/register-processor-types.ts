@@ -1,5 +1,6 @@
 import type { Nitro, NitroTypes } from 'nitro/types'
 
+import { resolvePublishedRuntimeEntryPath } from '../utils/resolve-published-runtime-entry-path'
 import { resolvePublishedRuntimePath } from '../utils/resolve-published-runtime-path'
 
 export const registerProcessorTypes = (
@@ -10,6 +11,7 @@ export const registerProcessorTypes = (
     packageRoot,
     'server/handlers/processor.ts',
   )
+  const runtimeEntryPath = resolvePublishedRuntimeEntryPath(packageRoot)
   const defineQueuePath = resolvePublishedRuntimePath(
     packageRoot,
     'server/handlers/defineQueue.ts',
@@ -31,8 +33,10 @@ export const registerProcessorTypes = (
         | Record<string, string[]>
         | undefined),
       'nitro-processor': [processorPath],
+      'nitro-processor/runtime': [runtimeEntryPath],
       '#processor': [processorPath],
       '#processor-utils': [workersUtilsPath],
+      '#bullmq': ['bullmq'],
     }
     types.tsConfig.compilerOptions.paths = paths
     types.tsConfig.include ??= []

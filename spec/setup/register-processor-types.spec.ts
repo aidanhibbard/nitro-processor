@@ -29,6 +29,8 @@ describe('registerProcessorTypes', () => {
     expect(paths?.['#processor']?.[0]).toContain('processor')
     expect(paths?.['nitro-processor']?.[0]).toBe(paths?.['#processor']?.[0])
     expect(paths?.['#processor-utils']).toBeDefined()
+    expect(paths?.['#bullmq']).toEqual(['bullmq'])
+    expect(paths?.['nitro-processor/runtime']?.[0]).toContain('runtime-entry')
     expect(types.tsConfig?.include).toEqual(
       expect.arrayContaining([
         expect.stringContaining('processor'),

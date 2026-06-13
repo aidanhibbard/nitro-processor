@@ -8,16 +8,34 @@ Reference for module options, runtime config, helpers, and the CLI.
 
 ## Imports
 
-| Alias | Exports |
+Use Nitro virtual aliases in server code, or import from the published runtime entry when typechecking with plain `tsc` (before Nitro generates types):
+
+| Import | Exports |
 | --- | --- |
 | `#processor` | `defineQueue`, `defineWorker` |
 | `#processor-utils` | `useProcessor`, BullMQ types (`Queue`, `Worker`, `Processor`, …) |
 | `#bullmq` | Re-exports from `bullmq` |
+| `nitro-processor/runtime` | `defineQueue`, `defineWorker`, `useProcessor`, BullMQ types |
 
 ```ts
 import { defineQueue, defineWorker } from '#processor'
+import { useProcessor } from 'nitro-processor/runtime'
 import type { Job } from '#bullmq'
 ```
+
+### TypeScript
+
+The package ships ambient declarations for `#processor`, `#processor-utils`, and `#bullmq`, plus a path map for plain `tsc`:
+
+```json
+{
+  "extends": ["nitro/tsconfig", "nitro-processor/tsconfig.paths.json"]
+}
+```
+
+For project references (`tsc -b`), extend the same path map from your app tsconfig. The repo includes reference playgrounds under `playground/nitro/` (standalone Nitro) and `playground/vite-nitro/` (Vite + Nitro).
+
+When the Nitro module is registered, `types:extend` adds the same paths to Nitro's generated tsconfig automatically.
 
 ## Module options
 
